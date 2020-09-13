@@ -16,6 +16,7 @@ using Microsoft.Extensions.Logging;
 
 namespace apiPacientes
 {
+   //Teste Subindo Git
     public class Startup
     {
         public Startup(IConfiguration configuration)

@@ -68,7 +68,7 @@ namespace apiPacientes.Controllers
             return new NoContentResult(); // Status code 204 o servidor processou a requisição
         }
 
-        [HttpDelete("{id}")]
+        [HttpDelete]
         public IActionResult Delete(long id)
         {
             var paciente = pacienteRepository.Find(id);

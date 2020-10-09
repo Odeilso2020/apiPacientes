@@ -16,7 +16,6 @@ using Microsoft.Extensions.Logging;
 
 namespace apiPacientes
 {
-   //Teste Subindo Git
     public class Startup
     {
         public Startup(IConfiguration configuration)
@@ -30,12 +29,20 @@ namespace apiPacientes
         public void ConfigureServices(IServiceCollection services)
         {
             var connection = Configuration["ConexaoMySql:MySqlConnectionString"];
-            services.AddDbContext<PacienteDbContext>(options => 
+            services.AddDbContext<PacienteDbContext>(options =>
                 options.UseMySql(connection)
             );
-            //Setar os repositorios
+            //setar os repositórios
             services.AddTransient<IPacienteRepository, PacienteRepository>();
             services.AddControllers();
+            services.AddCors(
+                options => options.AddDefaultPolicy(
+                    builder => builder
+                                .AllowAnyOrigin()
+                                .AllowAnyMethod()
+                                .AllowAnyHeader()
+                )
+            );
             services.AddMvc();
         }
 
@@ -47,9 +54,12 @@ namespace apiPacientes
                 app.UseDeveloperExceptionPage();
             }
 
-            app.UseHttpsRedirection();
+            //Removendo o redirecionamento para aceitar requisição sem certificado SSL
+            //app.UseHttpsRedirection();
 
             app.UseRouting();
+
+            app.UseCors();
 
             app.UseAuthorization();
 
@@ -57,6 +67,7 @@ namespace apiPacientes
             {
                 endpoints.MapControllers();
             });
+            
         }
     }
 }
